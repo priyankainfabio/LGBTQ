@@ -150,17 +150,34 @@ section{position:relative}
 .day-title{font-family:var(--serif);font-size:1.7rem;font-weight:200}
 .day-text{font-family:var(--serif);font-style:italic;color:rgba(247,243,238,.45);line-height:1.65}
 
-/* VOICES SECTION — Elevated India style */
+/* DARK CINEMATIC TESTIMONIALS */
 
 .voices-section{
-  background:#F7F3EE;
-  color:#1C1C1C;
+  background:#080706;
+  color:#F7F3EE;
   padding:120px 52px 90px;
+  position:relative;
+  overflow:hidden;
+}
+
+.voices-section::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+  radial-gradient(
+    ellipse at top,
+    rgba(184,150,74,.06),
+    transparent 60%
+  );
+  pointer-events:none;
 }
 
 .voices-inner{
   max-width:1200px;
   margin:0 auto;
+  position:relative;
+  z-index:2;
 }
 
 .voices-header{
@@ -171,9 +188,9 @@ section{position:relative}
 .voices-title{
   font-family:var(--serif);
   font-weight:200;
-  font-size:clamp(2.6rem,4.8vw,4.8rem);
-  line-height:1.1;
-  color:#1C1C1C;
+  font-size:clamp(2.8rem,5vw,5.4rem);
+  line-height:1.05;
+  color:var(--ivory);
   margin-top:22px;
 }
 
@@ -181,8 +198,8 @@ section{position:relative}
   display:block;
   width:42px;
   height:1px;
-  background:#B8964A;
-  margin:32px auto 0;
+  background:var(--gold);
+  margin:30px auto 0;
 }
 
 .voices-grid{
@@ -192,34 +209,55 @@ section{position:relative}
 }
 
 .voice-card{
-  background:#fff;
-  border-top:2px solid #B8964A;
+  position:relative;
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(184,150,74,.14);
   padding:42px 38px 38px;
-  min-height:315px;
+  backdrop-filter:blur(14px);
+  overflow:hidden;
+  transition:.45s ease;
+}
+
+.voice-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+  linear-gradient(
+    135deg,
+    rgba(184,150,74,.08),
+    transparent 40%
+  );
+  opacity:0;
   transition:.45s ease;
 }
 
 .voice-card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 22px 55px rgba(0,0,0,.08);
+  transform:translateY(-8px);
+  border-color:rgba(184,150,74,.35);
+  box-shadow:0 25px 60px rgba(0,0,0,.35);
+}
+
+.voice-card:hover::before{
+  opacity:1;
 }
 
 .quote-mark{
   font-family:var(--serif);
   font-size:4rem;
   line-height:.7;
-  color:#E8D5A8;
-  margin-bottom:16px;
+  color:rgba(184,150,74,.55);
+  margin-bottom:18px;
 }
 
 .voice-quote{
   font-family:var(--serif);
   font-style:italic;
   font-weight:300;
-  font-size:1.2rem;
-  line-height:1.75;
-  color:#1C1C1C;
-  margin-bottom:38px;
+  font-size:1.22rem;
+  line-height:1.85;
+  color:rgba(247,243,238,.82);
+  margin-bottom:42px;
 }
 
 .voice-name{
@@ -227,48 +265,52 @@ section{position:relative}
   font-size:.62rem;
   letter-spacing:.22em;
   text-transform:uppercase;
-  color:#5A5A5A;
+  color:rgba(247,243,238,.7);
   margin-bottom:8px;
 }
 
 .voice-location{
   font-family:var(--sans);
   font-size:.78rem;
-  color:#B8964A;
+  color:var(--gold);
 }
 
 .recognised{
-  margin-top:76px;
+  margin-top:90px;
   text-align:center;
 }
 
 .recognised p{
   font-family:var(--sans);
-  font-size:.58rem;
-  letter-spacing:.34em;
+  font-size:.56rem;
+  letter-spacing:.36em;
   text-transform:uppercase;
-  color:#B8964A;
-  margin-bottom:36px;
+  color:rgba(184,150,74,.72);
+  margin-bottom:42px;
 }
 
 .recognised-logos{
   display:flex;
   justify-content:center;
   align-items:center;
-  gap:58px;
   flex-wrap:wrap;
+  gap:56px;
 }
 
 .recognised-logos span{
   font-family:var(--serif);
   font-style:italic;
-  font-size:1.55rem;
-  color:#1C1C1C;
-  opacity:.82;
+  font-size:1.6rem;
+  color:rgba(247,243,238,.58);
+  transition:.35s ease;
 }
 
-/* Mobile */
+.recognised-logos span:hover{
+  color:var(--gold2);
+}
+
 @media(max-width:900px){
+
   .voices-section{
     padding:90px 24px 70px;
   }
@@ -277,17 +319,14 @@ section{position:relative}
     grid-template-columns:1fr;
   }
 
-  .voice-card{
-    min-height:auto;
-  }
-
   .recognised-logos{
     gap:28px;
   }
 
   .recognised-logos span{
-    font-size:1.25rem;
+    font-size:1.2rem;
   }
+
 }
 /* FINAL */
 #final{min-height:100vh;background:#050403;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
