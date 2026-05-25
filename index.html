@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UNHIDDEN — India Beyond The Binary</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;1,300;1,400&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#0A0A0A;color:#F7F3EE;font-family:Inter,sans-serif;font-weight:300;overflow-x:hidden}
+:root{--ivory:#F7F3EE;--gold:#B8964A;--gold2:#D4AE6A;--dark:#0A0A0A;--charcoal:#1C1C1C;--champagne:#F2E8D4;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif}
+a{text-decoration:none;color:inherit}
+img{width:100%;display:block}
+::selection{background:rgba(184,150,74,.25)}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--gold)}
+::-webkit-scrollbar-track{background:#050505}
+
+/* BUTTONS */
+.btn-primary,.btn-secondary,.btn-ghost{
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--sans);font-size:.62rem;letter-spacing:.26em;
+  text-transform:uppercase;text-decoration:none;white-space:nowrap;
+  transition:.45s ease
+}
+.btn-primary{
+  padding:16px 36px;color:#111;
+  background:linear-gradient(135deg,#B8964A,#F0D080,#B8964A);
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 45px rgba(184,150,74,.25)}
+.btn-secondary{
+  padding:15px 34px;color:rgba(247,243,238,.75);
+  border:1px solid rgba(247,243,238,.28);
+}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold2);background:rgba(184,150,74,.06)}
+.btn-ghost{
+  gap:10px;color:rgba(247,243,238,.48);border-bottom:1px solid rgba(247,243,238,.14);padding-bottom:5px
+}
+.btn-ghost::after{content:"→"}
+.btn-ghost:hover{color:var(--gold2);border-color:var(--gold)}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-2%,-3%)}50%{transform:translate(3%,1%)}75%{transform:translate(-1%,4%)}100%{transform:translate(2%,-2%)}}
+@keyframes ken{from{transform:scale(1)}to{transform:scale(1.07)}}
+@keyframes scrollDrop{0%,100%{transform:scaleY(1);opacity:.55}50%{transform:scaleY(.48);opacity:1}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.reveal{opacity:0;transform:translateY(32px);transition:1s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  padding:26px 52px;display:flex;align-items:center;justify-content:space-between;
+  transition:.45s ease
+}
+nav.scrolled{background:rgba(10,10,10,.9);backdrop-filter:blur(22px);padding:16px 52px;border-bottom:1px solid rgba(184,150,74,.15)}
+.logo{display:flex;flex-direction:column;line-height:1}
+.logo-main{
+  font-family:var(--serif);font-size:1.45rem;font-weight:300;letter-spacing:.08em;color:var(--ivory)
+}
+.logo-sub{font-size:.48rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-top:6px}
+.nav-links{display:flex;gap:38px;list-style:none}
+.nav-links a{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(247,243,238,.62);transition:.3s}
+.nav-links a:hover{color:var(--gold2)}
+
+
+/* SECTION GLOBAL */
+section{position:relative}
+.section{padding:130px 52px;background:#080706}
+.inner{max-width:1200px;margin:0 auto}
+.label{font-size:.5rem;letter-spacing:.43em;text-transform:uppercase;color:rgba(184,150,74,.62);margin-bottom:22px}
+.title{font-family:var(--serif);font-size:clamp(2.3rem,4.5vw,4.5rem);font-weight:200;line-height:1.12;color:var(--ivory)}
+.title em{font-style:italic;color:rgba(247,243,238,.5)}
+.body{font-family:var(--serif);font-style:italic;font-size:clamp(1rem,1.5vw,1.2rem);color:rgba(247,243,238,.46);line-height:1.8;max-width:560px}
+.grid-head{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:end;margin-bottom:78px}
+
+/* MASK */
+#mask{background:#050403}
+.mask-wrap{height:520vh;position:relative}
+.mask-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.mask-bg{position:absolute;inset:0;transition:1s ease}
+.mask-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(184,150,74,.12),transparent 55%),rgba(0,0,0,.68)}
+.mask-chapter{position:absolute;z-index:3;text-align:center;opacity:0;transition:1s ease;padding:0 40px}
+.mask-chapter.active{opacity:1}
+.mask-num{font-size:.48rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(184,150,74,.5);margin-bottom:24px}
+.mask-line{font-family:var(--serif);font-size:clamp(2.2rem,4.4vw,4.4rem);font-weight:200;line-height:1.22;max-width:760px}
+.mask-line em{font-style:italic;color:rgba(247,243,238,.48)}
+.mask-dots{position:absolute;bottom:50px;display:flex;gap:10px;z-index:4}
+.mask-dot{width:25px;height:1px;background:rgba(184,150,74,.2);transition:.4s}
+.mask-dot.active{width:48px;background:var(--gold)}
+
+/* PHILOSOPHY */
+#philosophy{text-align:center;background:#0A0805}
+.philosophy{max-width:790px;margin:auto}
+.rule{width:1px;height:82px;background:linear-gradient(to bottom,transparent,rgba(184,150,74,.35),transparent);margin:0 auto 52px}
+.quote{font-family:var(--serif);font-size:clamp(1.8rem,3.4vw,3.1rem);font-weight:200;line-height:1.42;margin-bottom:34px}
+.quote em{font-style:italic;color:rgba(247,243,238,.48)}
+
+/* ROYAL SECTION */
+.royal{background:#070605}
+.royal-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+.visual{position:relative;aspect-ratio:4/5;overflow:hidden;background:#15100a}
+.visual img{height:100%;object-fit:cover;filter:brightness(.72) saturate(.75);animation:ken 22s ease-in-out infinite alternate}
+.visual::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8),transparent 65%);border:1px solid rgba(184,150,74,.18)}
+.kicker{font-size:.52rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+.royal-copy p{margin-top:28px}
+
+/* DESTINATIONS */
+#destinations{background:#0C0A07}
+.dest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.card{position:relative;overflow:hidden;min-height:360px;background:#111}
+.card.wide{grid-column:span 2}
+.card img{height:100%;object-fit:cover;transition:7s ease;filter:brightness(.72) saturate(.75)}
+.card:hover img{transform:scale(1.08)}
+.card::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,5,.9),rgba(5,5,5,.25),transparent)}
+.card-content{position:absolute;z-index:3;bottom:0;padding:30px}
+.card-tag{font-size:.45rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.card-title{font-family:var(--serif);font-size:2rem;font-weight:200}
+.card-text{font-family:var(--serif);font-style:italic;color:rgba(247,243,238,.48);line-height:1.6;max-height:0;opacity:0;transition:.5s}
+.card:hover .card-text{max-height:90px;opacity:1;margin-top:10px}
+
+/* CULTURE MARQUEE */
+#culture{background:#060504;overflow:hidden}
+.marquee-wrap{overflow:hidden;margin-top:70px;position:relative}
+.marquee-wrap::before,.marquee-wrap::after{content:"";position:absolute;top:0;bottom:0;width:120px;z-index:4}
+.marquee-wrap::before{left:0;background:linear-gradient(90deg,#060504,transparent)}
+.marquee-wrap::after{right:0;background:linear-gradient(-90deg,#060504,transparent)}
+.marquee{display:flex;gap:4px;width:max-content;animation:marquee 40s linear infinite}
+.marquee:hover{animation-play-state:paused}
+.tile{width:285px;height:385px;position:relative;overflow:hidden;flex-shrink:0;background:#111}
+.tile img{height:100%;object-fit:cover;filter:brightness(.7) saturate(.75);transition:6s ease}
+.tile:hover img{transform:scale(1.08)}
+.tile::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.88),transparent)}
+.tile-content{position:absolute;z-index:3;bottom:24px;left:22px;right:22px}
+.tile-cat{font-size:.43rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.tile-name{font-family:var(--serif);font-size:1.25rem}
+
+/* ITINERARY */
+#itinerary{background:#0B0906}
+.timeline{margin-top:70px;border-top:1px solid rgba(184,150,74,.18)}
+.day{display:grid;grid-template-columns:110px 1fr 1fr;gap:35px;padding:30px 0;border-bottom:1px solid rgba(184,150,74,.12)}
+.day-num{font-size:.52rem;letter-spacing:.34em;color:var(--gold);text-transform:uppercase}
+.day-title{font-family:var(--serif);font-size:1.7rem;font-weight:200}
+.day-text{font-family:var(--serif);font-style:italic;color:rgba(247,243,238,.45);line-height:1.65}
+
+/* VOICES SECTION — Elevated India style */
+
+.voices-section{
+  background:#F7F3EE;
+  color:#1C1C1C;
+  padding:120px 52px 90px;
+}
+
+.voices-inner{
+  max-width:1200px;
+  margin:0 auto;
+}
+
+.voices-header{
+  text-align:center;
+  margin-bottom:70px;
+}
+
+.voices-title{
+  font-family:var(--serif);
+  font-weight:200;
+  font-size:clamp(2.6rem,4.8vw,4.8rem);
+  line-height:1.1;
+  color:#1C1C1C;
+  margin-top:22px;
+}
+
+.voices-line{
+  display:block;
+  width:42px;
+  height:1px;
+  background:#B8964A;
+  margin:32px auto 0;
+}
+
+.voices-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:28px;
+}
+
+.voice-card{
+  background:#fff;
+  border-top:2px solid #B8964A;
+  padding:42px 38px 38px;
+  min-height:315px;
+  transition:.45s ease;
+}
+
+.voice-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 22px 55px rgba(0,0,0,.08);
+}
+
+.quote-mark{
+  font-family:var(--serif);
+  font-size:4rem;
+  line-height:.7;
+  color:#E8D5A8;
+  margin-bottom:16px;
+}
+
+.voice-quote{
+  font-family:var(--serif);
+  font-style:italic;
+  font-weight:300;
+  font-size:1.2rem;
+  line-height:1.75;
+  color:#1C1C1C;
+  margin-bottom:38px;
+}
+
+.voice-name{
+  font-family:var(--sans);
+  font-size:.62rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:#5A5A5A;
+  margin-bottom:8px;
+}
+
+.voice-location{
+  font-family:var(--sans);
+  font-size:.78rem;
+  color:#B8964A;
+}
+
+.recognised{
+  margin-top:76px;
+  text-align:center;
+}
+
+.recognised p{
+  font-family:var(--sans);
+  font-size:.58rem;
+  letter-spacing:.34em;
+  text-transform:uppercase;
+  color:#B8964A;
+  margin-bottom:36px;
+}
+
+.recognised-logos{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:58px;
+  flex-wrap:wrap;
+}
+
+.recognised-logos span{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:1.55rem;
+  color:#1C1C1C;
+  opacity:.82;
+}
+
+/* Mobile */
+@media(max-width:900px){
+  .voices-section{
+    padding:90px 24px 70px;
+  }
+
+  .voices-grid{
+    grid-template-columns:1fr;
+  }
+
+  .voice-card{
+    min-height:auto;
+  }
+
+  .recognised-logos{
+    gap:28px;
+  }
+
+  .recognised-logos span{
+    font-size:1.25rem;
+  }
+}
+/* FINAL */
+#final{min-height:100vh;background:#050403;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.final-img{position:absolute;inset:0}
+.final-img img{height:100%;object-fit:cover;filter:brightness(.25) saturate(.6);animation:ken 24s infinite alternate}
+.final-glow{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(184,150,74,.08),transparent 58%),rgba(0,0,0,.55)}
+.final-content{position:relative;z-index:3;max-width:850px;padding:0 40px}
+.final-title{font-family:var(--serif);font-size:clamp(3rem,6vw,6rem);font-weight:200;line-height:1.1;margin:34px 0}
+.final-sub{font-family:var(--serif);font-style:italic;color:rgba(247,243,238,.42);font-size:1.2rem;margin-bottom:50px}
+.final-actions{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+
+/* FOOTER */
+footer{padding:70px 52px;background:#0A0A0A;border-top:1px solid rgba(184,150,74,.1)}
+.footer-inner{max-width:1200px;margin:auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:50px}
+.footer-logo{font-family:var(--serif);font-size:1.6rem;letter-spacing:.08em}
+.footer-sub{font-size:.48rem;letter-spacing:.36em;text-transform:uppercase;color:var(--gold);margin:8px 0 24px}
+.footer-desc{font-family:var(--serif);font-style:italic;color:rgba(247,243,238,.32);line-height:1.7;max-width:320px}
+.footer-col h4{font-size:.5rem;letter-spacing:.32em;text-transform:uppercase;color:rgba(184,150,74,.55);margin-bottom:20px}
+.footer-col a{display:block;font-size:.65rem;letter-spacing:.1em;color:rgba(247,243,238,.32);margin-bottom:11px}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:22px 24px}nav.scrolled{padding:14px 24px}.nav-links{display:none}
+  .section{padding:90px 24px}.grid-head,.royal-grid{grid-template-columns:1fr}
+  .dest-grid{grid-template-columns:1fr}.card.wide{grid-column:span 1}
+  .day{grid-template-columns:1fr;gap:14px}
+  .footer-inner{grid-template-columns:1fr}
+}
+/* hero */
+.hero{
+  position:relative;
+  height:100vh;
+  min-height:700px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+}
+
+.hero-slides{
+  position:absolute;
+  inset:0;
+  z-index:0;
+}
+
+.hero-slide{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transform:scale(1.08);
+  transition:opacity 1.5s ease-in-out, transform 6.5s linear;
+}
+
+.hero-slide.active{
+  opacity:1;
+  transform:scale(1);
+}
+
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  background:linear-gradient(
+    to right,
+    rgba(10,8,5,.78) 0%,
+    rgba(10,8,5,.48) 55%,
+    rgba(10,8,5,.18) 100%
+  );
+}
+
+.hero-bottom{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:220px;
+  z-index:2;
+  background:linear-gradient(to top,#0A0A0A,transparent);
+}
+
+.hero-content{
+  position:relative;
+  z-index:4;
+  max-width:1320px;
+  width:100%;
+  margin:0 auto;
+  padding:0 52px;
+  padding-top:70px;
+  text-align:left;
+}
+
+.hero-eyebrow{
+  font-family:var(--sans);
+  font-size:.58rem;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--gold);
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:30px;
+  opacity:0;
+  animation:fadeUp 1s ease .35s forwards;
+}
+
+.hero-eyebrow::before{
+  content:"";
+  width:34px;
+  height:1px;
+  background:var(--gold);
+}
+
+.hero-title{
+  font-family:var(--serif);
+  font-weight:200;
+  font-size:clamp(4.6rem,8vw,7.4rem);
+  line-height:.98;
+  letter-spacing:-.02em;
+  color:var(--ivory);
+  max-width:720px;
+  margin-bottom:28px;
+  opacity:0;
+  animation:fadeUp 1.1s ease .6s forwards;
+}
+
+.hero-sub{
+  font-family:var(--serif);
+  font-size:clamp(1.05rem,1.7vw,1.35rem);
+  font-style:italic;
+  line-height:1.75;
+  color:rgba(247,243,238,.76);
+  max-width:570px;
+  margin-bottom:42px;
+  opacity:0;
+  animation:fadeUp 1.1s ease .85s forwards;
+}
+
+.hero-actions{
+  display:flex;
+  gap:22px;
+  flex-wrap:wrap;
+  opacity:0;
+  animation:fadeUp 1.1s ease 1.1s forwards;
+}
+
+.hero-scroll{
+  position:absolute;
+  bottom:42px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:5;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  opacity:0;
+  animation:fadeIn 1s ease 1.7s forwards;
+}
+
+.hero-scroll span{
+  font-size:.48rem;
+  letter-spacing:.34em;
+  text-transform:uppercase;
+  color:rgba(247,243,238,.45);
+}
+
+.scroll-line{
+  width:1px;
+  height:52px;
+  background:linear-gradient(to bottom,var(--gold),transparent);
+  animation:scrollDrop 2.2s ease-in-out infinite;
+}
+</style>
+</head>
+
+<body>
+
+<nav id="navbar">
+  <a href="#" class="logo">
+    <span class="logo-main">Elevated India</span>
+    <span class="logo-sub">Private Travel House</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#mask">The Journey</a></li>
+    <li><a href="#royal">Royal Encounter</a></li>
+    <li><a href="#heritage">Heritage</a></li>
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#itinerary">Itinerary</a></li>
+  </ul>
+  <a href="#final" class="btn-secondary">Begin The Journey</a>
+</nav>
+
+<section id="hero" class="hero">
+  <div class="hero-slides">
+    <div class="hero-slide active" style="background-image:url('hero-1.png')"></div>
+    <div class="hero-slide" style="background-image:url('hero-2.png')"></div>
+    <div class="hero-slide" style="background-image:url('hero-3.jpg')"></div>
+  </div>
+
+  <div class="hero-overlay"></div>
+  <div class="hero-bottom"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">India Beyond The Binary</p>
+
+    <h1 class="hero-title">
+      India’s Queer<br>
+      Luxury Journey.
+    </h1>
+
+    <p class="hero-sub">
+      Bespoke LGBTQIA+ cultural immersion crafted with rare access,
+      royal encounters, sacred heritage, and discreet luxury.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#itinerary" class="btn-primary">Begin Your Journey</a>
+      <a href="#royal" class="btn-secondary">Explore Stories</a>
+    </div>
+  </div>
+
+  <a href="#mask" class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </a>
+</section>
+
+
+
+<section id="philosophy" class="section">
+  <div class="philosophy">
+    <div class="rule reveal"></div>
+    <blockquote class="quote reveal">
+      “Queerness is not new to India.<br>
+      <em>Only its visibility is being reclaimed.</em>”
+    </blockquote>
+    <a href="#heritage" class="btn-ghost reveal">Enter The Archive</a>
+  </div>
+</section>
+
+<section id="royal" class="section royal">
+  <div class="inner royal-grid">
+    <div class="visual reveal">
+      <img src="prince.png" alt="Prince Manvendra Singh">
+    </div>
+    <div class="royal-copy reveal">
+      <p class="kicker">The Royal Encounter</p>
+      <h2 class="title">Lunch with India’s first openly gay royal.</h2>
+      <p class="body">
+        At Queerbagh, guests enter a deeply personal conversation with Prince Manvendra Singh of Rajpipla —
+        a global LGBTQ+ rights icon whose work has reshaped courage, healthcare, education,
+        and visibility for queer India.
+      </p>
+      <br><br>
+      <a href="#itinerary" class="btn-primary">View Journey</a>
+    </div>
+  </div>
+</section>
+
+<section id="heritage" class="section">
+  <div class="inner grid-head">
+    <div>
+      <p class="label reveal">Ancient Queer Heritage</p>
+      <h2 class="title reveal">Khajuraho is not just sculpture.<br><em>It is evidence.</em></h2>
+    </div>
+    <p class="body reveal">
+      The journey explores temple carvings depicting intimacy, fluidity, and same-sex expression —
+      placing queer history inside India’s sacred architectural memory.
+    </p>
+  </div>
+
+  <div class="inner dest-grid reveal">
+    <div class="card wide">
+      <img src="khajuraho.png" alt="Khajuraho">
+      <div class="card-content"><p class="card-tag">Sacred · Fluidity</p><h3 class="card-title">Khajuraho</h3><p class="card-text">A visual archive of intimacy beyond modern labels.</p></div>
+    </div>
+    <div class="card">
+      <img src="hijra.png" alt="Hijra community">
+      <div class="card-content"><p class="card-tag">Community · Dignity</p><h3 class="card-title">Hijra Traditions</h3><p class="card-text">Respectful guided conversations with India’s historic gender-diverse communities.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="destinations" class="section">
+  <div class="inner grid-head">
+    <div>
+      <p class="label reveal">The Route</p>
+      <h2 class="title reveal">Fourteen days through<br><em>royal, sacred, and queer India.</em></h2>
+    </div>
+    <p class="body reveal">
+      Delhi, Khajuraho, Agra, Jaipur, Shahpura Bagh, Udaipur, Ahmedabad, Vadodara, and Rajpipla —
+      connected through heritage, intimacy, activism, and luxury.
+    </p>
+  </div>
+
+  <div class="inner dest-grid reveal">
+    <div class="card wide"><img src="delhi.png"><div class="card-content"><p class="card-tag">Arrival · Heritage</p><h3 class="card-title">Delhi</h3><p class="card-text">Old Delhi, Humayun’s Tomb, The Lalit, The Imperial.</p></div></div>
+    <div class="card"><img src="agra.png"><div class="card-content"><p class="card-tag">Romance · Dawn</p><h3 class="card-title">Agra</h3><p class="card-text">Taj Mahal at sunrise and Mughal luxury.</p></div></div>
+    <div class="card"><img src="jaipur.jpg"><div class="card-content"><p class="card-tag">Royal · Community</p><h3 class="card-title">Jaipur</h3><p class="card-text">Amber Fort, palace living, Hijra community meeting.</p></div></div>
+    <div class="card"><img src="udaipur.jpg"><div class="card-content"><p class="card-tag">Water · Romance</p><h3 class="card-title">Udaipur</h3><p class="card-text">Lake Pichola, Taj Lake Palace, candlelit privacy.</p></div></div>
+    <div class="card wide"><img src="queerbagh.jpg"><div class="card-content"><p class="card-tag">Royal · Queerbagh</p><h3 class="card-title">Rajpipla</h3><p class="card-text">The intimate meeting with Prince Manvendra Singh.</p></div></div>
+  </div>
+</section>
+
+<section id="culture" class="section">
+  <div class="inner">
+    <p class="label reveal">Culture & Community</p>
+    <h2 class="title reveal">Tourism becomes meaningful<br><em>only when it gives back.</em></h2>
+  </div>
+
+  <div class="marquee-wrap reveal">
+    <div class="marquee">
+      <div class="tile"><img src="culture-1.jpg"><div class="tile-content"><p class="tile-cat">LGBTQ Dining</p><h3 class="tile-name">Community Restaurants</h3></div></div>
+      <div class="tile"><img src="culture-2.jpg"><div class="tile-content"><p class="tile-cat">Advocacy</p><h3 class="tile-name">Grassroots Voices</h3></div></div>
+      <div class="tile"><img src="culture-3.jpg"><div class="tile-content"><p class="tile-cat">Queerbagh</p><h3 class="tile-name">Royal Courage</h3></div></div>
+      <div class="tile"><img src="culture-4.jpg"><div class="tile-content"><p class="tile-cat">Hijra Heritage</p><h3 class="tile-name">Dignified Exchange</h3></div></div>
+      <div class="tile"><img src="culture-5.jpg"><div class="tile-content"><p class="tile-cat">Gazra Café</p><h3 class="tile-name">Inclusive Livelihoods</h3></div></div>
+
+      <div class="tile"><img src="culture-1.jpg"><div class="tile-content"><p class="tile-cat">LGBTQ Dining</p><h3 class="tile-name">Community Restaurants</h3></div></div>
+      <div class="tile"><img src="culture-2.jpg"><div class="tile-content"><p class="tile-cat">Advocacy</p><h3 class="tile-name">Grassroots Voices</h3></div></div>
+      <div class="tile"><img src="culture-3.jpg"><div class="tile-content"><p class="tile-cat">Queerbagh</p><h3 class="tile-name">Royal Courage</h3></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="itinerary" class="section">
+  <div class="inner">
+    <p class="label reveal">Curated Itinerary</p>
+    <h2 class="title reveal">A cinematic route,<br><em>not a checklist.</em></h2>
+
+    <div class="timeline reveal">
+      <div class="day"><p class="day-num">Day 01–02</p><h3 class="day-title">Delhi</h3><p class="day-text">Arrival, Old Delhi, Sikh temple, Chandni Chowk, India Gate, Humayun’s Tomb.</p></div>
+      <div class="day"><p class="day-num">Day 03</p><h3 class="day-title">Khajuraho</h3><p class="day-text">Temple carvings, same-sex expression, sacred heritage and ancient intimacy.</p></div>
+      <div class="day"><p class="day-num">Day 04–05</p><h3 class="day-title">Agra & Jaipur</h3><p class="day-text">Moonlight garden, Taj Mahal sunrise, Bharatpur, Rambagh Palace / Jai Mahal Palace.</p></div>
+      <div class="day"><p class="day-num">Day 06</p><h3 class="day-title">Jaipur + Hijra Community</h3><p class="day-text">Amber Fort, City Palace, and respectful interaction with India’s traditional third-gender community.</p></div>
+      <div class="day"><p class="day-num">Day 07–08</p><h3 class="day-title">Shahpura Bagh</h3><p class="day-text">Slow luxury, lakeside walks, village encounters, yoga, privacy, and inclusive calm.</p></div>
+      <div class="day"><p class="day-num">Day 09–10</p><h3 class="day-title">Udaipur</h3><p class="day-text">Lake Pichola, City Palace, miniature painting, Taj Lake Palace / Lalit Laxmi Vilas.</p></div>
+      <div class="day"><p class="day-num">Day 11–14</p><h3 class="day-title">Ahmedabad · Vadodara · Rajpipla</h3><p class="day-text">Lakshmi Vilas Palace, lunch with Prince Manvendra Singh, Gazra Café, farewell dinner.</p></div>
+    </div>
+  </div>
+</section>
+<section id="voices" class="voices-section">
+  <div class="voices-inner">
+
+    <div class="voices-header reveal">
+      <p class="label">Private Guest Voices</p>
+      <h2 class="voices-title">Journeys That Remain</h2>
+      <span class="voices-line"></span>
+    </div>
+
+    <div class="voices-grid reveal">
+      <div class="voice-card">
+        <div class="quote-mark">“</div>
+        <p class="voice-quote">
+          This journey did not show us India. It revealed it — privately,
+          thoughtfully, in a way that felt completely our own.
+        </p>
+        <p class="voice-name">C. & R. Whitmore</p>
+        <p class="voice-location">London, United Kingdom</p>
+      </div>
+
+      <div class="voice-card">
+        <div class="quote-mark">“</div>
+        <p class="voice-quote">
+          The access was extraordinary — private conversations, palace stays,
+          and a feeling of being welcomed rather than simply guided.
+        </p>
+        <p class="voice-name">A. Lindqvist</p>
+        <p class="voice-location">Stockholm, Sweden</p>
+      </div>
+
+      <div class="voice-card">
+        <div class="quote-mark">“</div>
+        <p class="voice-quote">
+          What impressed me most was how little I had to think. Every detail
+          was handled before I even thought to ask.
+        </p>
+        <p class="voice-name">M. Al Farsi</p>
+        <p class="voice-location">Dubai, UAE</p>
+      </div>
+    </div>
+
+    <div class="recognised reveal">
+      <p>As Recognised By</p>
+
+      <div class="recognised-logos">
+        <span>Condé Nast Traveler</span>
+        <span>Travel + Leisure</span>
+        <span>The Financial Times</span>
+        <span>Tatler</span>
+        <span>Harper’s Bazaar</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="final">
+  <div class="final-img"><img src="final.png" alt="India luxury journey"></div>
+  <div class="final-glow"></div>
+  <div class="grain-layer"></div>
+
+  <div class="final-content reveal">
+    <p class="label">Begin Privately</p>
+    <h2 class="final-title">India Beyond<br>The Binary.</h2>
+    <p class="final-sub">A journey of pride, purpose, access, and profound connection.</p>
+    <div class="final-actions">
+      <a href="#" class="btn-primary">Design My Journey</a>
+      <a href="#" class="btn-secondary">Speak With A Curator</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Elevated India</div>
+      <div class="footer-sub">Private Travel House</div>
+      <p class="footer-desc">A cinematic LGBTQIA+ cultural immersion journey through India’s heritage, communities, and luxury spaces.</p>
+    </div>
+    <div class="footer-col"><h4>Journey</h4><a href="#royal">Royal Encounter</a><a href="#heritage">Queer Heritage</a><a href="#itinerary">Itinerary</a></div>
+    <div class="footer-col"><h4>Route</h4><a>Delhi</a><a>Khajuraho</a><a>Udaipur</a><a>Rajpipla</a></div>
+    <div class="footer-col"><h4>Begin</h4><a>Design My Journey</a><a>Speak With A Curator</a></div>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById("navbar");
+window.addEventListener("scroll",()=>nav.classList.toggle("scrolled",window.scrollY>70));
+
+const reveals=document.querySelectorAll(".reveal");
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible")})
+},{threshold:.15});
+reveals.forEach(el=>observer.observe(el));
+
+const chapters=document.querySelectorAll(".mask-chapter");
+const dots=document.querySelectorAll(".mask-dot");
+const maskWrap=document.getElementById("maskWrap");
+const maskBg=document.getElementById("maskBg");
+
+const bgColors=[
+  "radial-gradient(ellipse at 40% 50%,rgba(100,60,18,.5),#050403 70%)",
+  "radial-gradient(ellipse at 60% 45%,rgba(70,36,12,.55),#050403 72%)",
+  "radial-gradient(ellipse at 50% 55%,rgba(120,75,22,.45),#050403 72%)",
+  "radial-gradient(ellipse at 45% 50%,rgba(90,55,20,.5),#050403 72%)",
+  "radial-gradient(ellipse at 50% 50%,rgba(184,150,74,.35),#050403 75%)"
+];
+
+window.addEventListener("scroll",()=>{
+  if(!maskWrap)return;
+  const rect=maskWrap.getBoundingClientRect();
+  const total=maskWrap.offsetHeight-window.innerHeight;
+  let progress=Math.min(Math.max(-rect.top/total,0),1);
+  let index=Math.min(4,Math.floor(progress*5));
+
+  chapters.forEach((c,i)=>c.classList.toggle("active",i===index));
+  dots.forEach((d,i)=>d.classList.toggle("active",i===index));
+  maskBg.style.background=bgColors[index];
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(link=>{
+  link.addEventListener("click",e=>{
+    const id=link.getAttribute("href");
+    const target=document.querySelector(id);
+    if(target){
+      e.preventDefault();
+      window.scrollTo({top:target.offsetTop-70,behavior:"smooth"});
+    }
+  });
+});
+const heroSlides = document.querySelectorAll(".hero-slide");
+let heroIndex = 0;
+
+function changeHeroSlide(){
+  heroSlides[heroIndex].classList.remove("active");
+  heroIndex = (heroIndex + 1) % heroSlides.length;
+  heroSlides[heroIndex].classList.add("active");
+}
+
+setInterval(changeHeroSlide, 5500);
+</script>
+
+</body>
+</html>
